@@ -9,6 +9,9 @@ on:
       - 'database/**'
 
 # pipeline to execute
+permissions:
+  contents: read
+
 jobs:
   database_postgres:
     runs-on: ubuntu-latest
@@ -39,6 +42,11 @@ jobs:
       POSTGRES_ADDR: postgres://vela:notARealPassword12345@localhost:5432/vela
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
+
       - name: clone
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
@@ -61,6 +69,11 @@ jobs:
       SQLITE_ADDR: vela.db
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
+
       - name: clone
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
